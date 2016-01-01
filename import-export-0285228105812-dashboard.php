@@ -73,8 +73,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2 class="section-heading">Список данных по врачам</h2>
-                    <a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>
-                    <a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>
+                    <div class="doctorsdatabyname-btns">
+                        <!--<a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>-->
+                    </div>
+                    <div class="doctorsdatabyname-hidden-data"></div>
                 </div>
             </div>
         </div>

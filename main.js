@@ -214,7 +214,7 @@ $(document).ready(function() {
 		for(var i = 1; i < lines_count; ++i) {
 			var date_column = 4;
 			var patient_column = 7;
-			//if($('#SCHEDULE_DATA tr:nth-child('+ i +') > td:nth-child('+date_column+')').text()[0] != 'Í') {
+			//if($('#SCHEDULE_DATA tr:nth-child('+ i +') > td:nth-child('+date_column+')').text()[0] != 'Í') { }
 			var patient_data_row_DOM = $('#SCHEDULE_DATA tr:nth-child('+ i +')');
 			var patient = patient_data_row_DOM.find('td:nth-child('+patient_column+')').text();
 			if(patient == '1') {

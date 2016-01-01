@@ -432,3 +432,7 @@ img::-moz-selection {
 .bg-primary {
     background-color: yellowgreen;
 }
+
+.doctorsdatabyname-hidden-data {
+    visibility: hidden;
+}
