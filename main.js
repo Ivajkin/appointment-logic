@@ -59,39 +59,73 @@ $(document).ready(function() {
 		//$('#appointment').submit();
 	}
 
+	function correct_date(date_string) {
+		// Если отсутствует первый символ, добавляем 0, например "1.01.2018" -> "01.01.2018"
+ 		// Если отсутствуют символы в месяце и дне, соответсвенно меняем "1.1.2018" -> "01.01.2018"
+ 		// Если отсутствуют символ только в месяце, соответсвенно меняем "01.1.2018" -> "01.01.2018"
+ 		if(date_string.length == 9) {
+ 			if(date_string.substring(2,3) == ".") {
+ 				date_string = date_string.substring(0,3)+"0"+date_string.substring(3,date_string.length);
+ 			} else {
+ 				date_string = 0 + date_string;
+ 			}
+ 		} else if(date_string.length == 8) {
+ 			date_string = 0 + date_string;
+ 			date_string = date_string.substring(0,3)+"0"+date_string.substring(3,date_string.length);
+ 		}
+		return date_string;
+	}
+
+	/* Проверяем correct_date */
+	(function() {
+		function str_eq(string_a,string_b) {
+			return 0 == string_a.localeCompare(string_b);
+		}
+		// Если отсутствует первый символ, добавляем 0, например "1.01.2018" -> "01.01.2018"
+		if("01.01.2018" != correct_date("1.01.2018")) {
+			throw ('Ошибка в correct_date "1.01.2018" -> "01.01.2018"');
+		}
+ 		// Если отсутствуют символы в месяце и дне, соответсвенно меняем "1.1.2018" -> "01.01.2018"
+		if("01.01.2018" != correct_date("1.1.2018")) {
+			throw ('Ошибка в correct_date "1.1.2018" -> "01.01.2018"');
+		}
+ 		// Если отсутствуют символ только в месяце, соответсвенно меняем "01.1.2018" -> "01.01.2018"
+		if("01.01.2018" != correct_date("01.1.2018")) {
+			throw ('Ошибка в correct_date "01.1.2018" -> "01.01.2018"');
+		}
+	}) ();
+	/* Проверяем correct_date */
+
 	/*
 	 *	@schedule_date_of_the_specialist: формат "11.11.2018"
 	 */
-	function is_up_to_date(schedule_date_of_the_specialist) {
-		// Если отсутствует первый символ, добавляем 0, например "1.01.2018" -> "01.01.2018"
-		if(schedule_date_of_the_specialist.length == 9) {
-			schedule_date_of_the_specialist = 0 + schedule_date_of_the_specialist;
-		}
-		if(schedule_date_of_the_specialist.length != 10) {
-			throw "Неверный формат даты в is_up_to_date";
-		}
+	 function is_up_to_date(schedule_date_of_the_specialist) {
+ 		schedule_date_of_the_specialist = correct_date(schedule_date_of_the_specialist);
+ 		if(schedule_date_of_the_specialist.length != 10) {
+ 			throw "Неверный формат даты в is_up_to_date";
+ 		}
 
-		var today_date = new Date(); var today_date_n = today_date.getDate(); var today_date_month = today_date.getMonth()+1;
-		var schedule_date_of_the_specialist_month = parseInt(schedule_date_of_the_specialist[3]+schedule_date_of_the_specialist[4]);
+ 		var today_date = new Date(); var today_date_n = today_date.getDate(); var today_date_month = today_date.getMonth()+1;
+ 		var schedule_date_of_the_specialist_month = parseInt(schedule_date_of_the_specialist[3]+schedule_date_of_the_specialist[4]);
 
-		//alert('schedule_date_of_the_specialist_month: ' + schedule_date_of_the_specialist_month);
-		//alert('today_date_month: ' + today_date_month);
+ 		//alert('schedule_date_of_the_specialist_month: ' + schedule_date_of_the_specialist_month);
+ 		//alert('today_date_month: ' + today_date_month);
 
-		// Проверяем, актуальная ли дата для записи
-		var is_up_to_date = false;
-		//today_date_month <= schedule_date_of_the_specialist_month;
-		var is_new_year_eve = (today_date_month == 12 && schedule_date_of_the_specialist_month == 1);
-		if(today_date_month < schedule_date_of_the_specialist_month || is_new_year_eve) {
-			is_up_to_date = true;
-		} else {
-			var schedule_date_of_the_specialist_day = parseInt(schedule_date_of_the_specialist[0]+schedule_date_of_the_specialist[1]);
-			if(today_date_month == schedule_date_of_the_specialist_month && today_date_n < schedule_date_of_the_specialist_day) {
-				is_up_to_date = true;
-			}
-		}
+ 		// Проверяем, актуальная ли дата для записи
+ 		var is_up_to_date = false;
+ 		//today_date_month <= schedule_date_of_the_specialist_month;
+ 		var is_new_year_eve = (today_date_month == 12 && schedule_date_of_the_specialist_month == 1);
+ 		if(today_date_month < schedule_date_of_the_specialist_month || is_new_year_eve) {
+ 			is_up_to_date = true;
+ 		} else {
+ 			var schedule_date_of_the_specialist_day = parseInt(schedule_date_of_the_specialist[0]+schedule_date_of_the_specialist[1]);
+ 			if(today_date_month == schedule_date_of_the_specialist_month && today_date_n < schedule_date_of_the_specialist_day) {
+ 				is_up_to_date = true;
+ 			}
+ 		}
 
-		return is_up_to_date;
-	}
+ 		return is_up_to_date;
+ 	}
 
 	/* Проверяем is_up_to_date */
 	(function() {
