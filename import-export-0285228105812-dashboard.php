@@ -67,6 +67,19 @@
         </div>
     </section>
 
+    <!-- Export Section -->
+    <section class="content content-3" id="list-doctorsdatabyname-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2 class="section-heading">Список данных по врачам</h2>
+                    <a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>
+                    <a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 	<!-- Footer -->
     <footer class="page-footer">
