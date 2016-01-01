@@ -436,3 +436,12 @@ img::-moz-selection {
 .doctorsdatabyname-hidden-data {
     visibility: hidden;
 }
+
+.doctorsdatabyname-hidden-data, .doctorsdatabyname-hidden-data * {
+    height: 0px;
+}
+
+a#doctor2.btn.btn-primary.btn-lg {
+    font-size: 1em;
+    margin: 10px;
+}

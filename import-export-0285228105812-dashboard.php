@@ -76,7 +76,7 @@
                     <div class="doctorsdatabyname-btns">
                         <!--<a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>-->
                     </div>
-                    <div class="doctorsdatabyname-hidden-data"></div>
+                    <div class="doctorsdatabyname-hidden-data" id="SCHEDULE_DATA"></div>
                 </div>
             </div>
         </div>

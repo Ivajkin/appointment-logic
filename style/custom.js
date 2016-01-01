@@ -71,6 +71,30 @@ $(document).ready(function() {
 	};
 	on_schedule_is_locked(show_editor);
 
+
+
+	function merge_patients(patients1, patients2) {
+		for(var t = 0; t < patients2.length; ++t) {
+			patients1.push(patients2[t]);
+		}
+		return patients1;
+	}
+	function merge_doctors(specialists) {
+		var unique_IDs = {}; var exists = true;
+		for(var i = 0; i < specialists.length; ++i)
+		if(!unique_IDs[specialists[i].id]) {
+			unique_IDs[specialists[i].id] = exists;
+
+			for(var j = i+1; j < specialists.length; ++j) {
+				if(specialists[i].id === specialists[j].id) {
+					specialists[i].patients = merge_patients(specialists[i].patients, specialists[j].patients);
+					specialists.splice(j, 1);
+					--j;
+				}
+			}
+		} else alert("Неожиданная ситуация на мерджинге элемента " + i + ". Обнаружен дубликат с id=" + specialists[i].id);/*specialists.splice(i, 1);*/
+		return specialists;
+	}
 	function load_doctors(callback) {
 		$.get("data/export_schedule.php", function(data) {
 			$(".doctorsdatabyname-hidden-data").html(data);
@@ -83,40 +107,46 @@ $(document).ready(function() {
 				//if($('#SCHEDULE_DATA tr:nth-child('+ i +') > td:nth-child('+date_column+')').text()[0] != 'Н') { }
 				var patient_data_row_DOM = $('#SCHEDULE_DATA tr:nth-child('+ i +')');
 				var patient = patient_data_row_DOM.find('td:nth-child('+patient_column+')').text();
-				if(patient == '1') {
+				//if(patient != '1') {
 					var schedule_date_of_the_specialist = patient_data_row_DOM.find('td:nth-child('+date_column+')').text();
 
 
-					if(is_up_to_date(schedule_date_of_the_specialist)) {
+					//if(is_up_to_date(schedule_date_of_the_specialist)) {
 						specialists.push({
 							name: patient_data_row_DOM.find('td:nth-child(11)').text(),
 							speciality: patient_data_row_DOM.find('td:nth-child(15)').text(),
-							talons: [{
+							patients: [{
+								patient: (patient == "1" ? "-" : patient),
 								date: schedule_date_of_the_specialist + ' (' + patient_data_row_DOM.find('td:nth-child(6)').text().toLowerCase() + ')',
 								time: [patient_data_row_DOM.find('td:nth-child(3)').text()]
 							}],
 
 							id: patient_data_row_DOM.find('td:nth-child(2)').text()
 						});
-					}
-				}
+					//}
+				//}
 			}
-			callback(specialists);
+			var doctors = merge_doctors(specialists);
+			callback(doctors);
+		});
+	}
+	function show_doctor_data(doctor_data) {
+		alert(JSON.stringify(doctor_data)); // TODO: use modal/non-modal window
+	}
+	function setup_viewdoctor_btn(btn, doctor_data) {
+		btn.click(function() {
+			show_doctor_data(doctor_data);
 		});
 	}
 	function create_doctorbutton(button_name, doctor_data) {
 		return $(".doctorsdatabyname-btns")
-			.append('<a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>');
-	}
-	function setup_doctorbutton_callback(doctor_button) {
-		throw "Not implemented yet!";
+			.append('<a href="#doctorsdatabyname" class="btn btn-primary btn-lg" id="doctor' + doctor_data.id + '">' + button_name + '</a>');
 	}
 	function create_doctorsbuttons() {
 		load_doctors(function(doctors) {
 			for(var i = 0; i < doctors.length; ++i) {
-				setup_doctorbutton_callback(
-					create_doctorbutton(doctors[i].name, doctors[i])
-				);
+				create_doctorbutton(doctors[i].name, doctors[i]);
+				setup_viewdoctor_btn($('.doctorsdatabyname-btns a#doctor'+doctors[i].id), doctors[i]);
 			}
 		});
 	}
