@@ -23,6 +23,9 @@
 
     <!-- Custom Fonts from Google -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.11.0/vis.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.11.0/vis.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -73,6 +76,7 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2 class="section-heading">Список данных по врачам</h2>
+                    <div id="doctorsdatabyname-visualization">-</div>
                     <div class="doctorsdatabyname-btns">
                         <!--<a href="#doctorsdatabyname" class="btn btn-primary btn-lg">ДУБОТОЛКИНА ЕЛЕНА ВЛАДИМИРОВНА</a>-->
                     </div>

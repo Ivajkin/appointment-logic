@@ -130,8 +130,50 @@ $(document).ready(function() {
 			callback(doctors);
 		});
 	}
+	function convert_to_date(date_string_ru) {
+		// "01.01.2018" -> Date
+		return new Date(date_string_ru.substring(6,10),date_string_ru.substring(3,5),date_string_ru.substring(0,2));
+	}
 	function show_doctor_data(doctor_data) {
-		alert(JSON.stringify(doctor_data)); // TODO: use modal/non-modal window
+		$("#list-doctorsdatabyname-content .section-heading").text(doctor_data.name);
+		  // DOM element where the Timeline will be attached
+		  var container = document.getElementById('doctorsdatabyname-visualization');
+
+		  var patients_data = [];
+		  var current_id = 1;
+		  for(var i = 0; i < doctor_data.patients.length; ++i) {
+		  	// Format {patient, date, time[]}
+		  	var patient = doctor_data.patients[i];
+
+  		  	for(var j = 0; j < patient.time.length; ++j) {
+				var content = "<strong>" + patient.patient + "</strong><br/>" + patient.date + "<br/>" + patient.time[j];
+			  	patients_data.push({id: i, content: content, start: convert_to_date(patient.date)});
+				++current_id;
+			}
+		  }
+		  // Create a DataSet (allows two way data-binding)
+		  var items = new vis.DataSet(
+		    /* Format:
+				[{id: 1, content: 'item 1', start: '2013-04-20'},
+			    {id: 2, content: 'item 2', start: '2013-04-14'},
+			    {id: 3, content: 'item 3', start: '2013-04-18'},
+			    {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
+			    {id: 5, content: 'item 5', start: '2013-04-25'},
+			    {id: 6, content: 'item 6', start: '2013-04-27'}
+				]
+			*/
+			patients_data
+		  );
+
+		  // Configuration for the Timeline
+		  var options = {};
+
+		  // Create a Timeline
+		  var timeline = new vis.Timeline(container, items, options);
+		//alert(JSON.stringify(doctor_data));
+		// TODO: use modal/non-modal window
+		$(".doctorsdatabyname-btns").hide();
+
 	}
 	function setup_viewdoctor_btn(btn, doctor_data) {
 		btn.click(function() {
