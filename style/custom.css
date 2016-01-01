@@ -441,7 +441,7 @@ img::-moz-selection {
     height: 0px;
 }
 
-a#doctor2.btn.btn-primary.btn-lg {
+.doctorsdatabyname-btns a {
     font-size: 1em;
     margin: 10px;
 }
